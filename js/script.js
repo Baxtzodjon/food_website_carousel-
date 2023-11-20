@@ -53,46 +53,126 @@ changeContent(0)
 
 
 // Homework carousel 
-let currentSlide = 1;
-let totalSlides = document.querySelectorAll('.offer__slide').length;
+// let currentSlide = 1;
+// let totalSlides = document.querySelectorAll('.offer__slide').length;
 
-let prevButton = document.querySelector('.offer__slider-prev');
-let nextButton = document.querySelector('.offer__slider-next');
-let currentCounter = document.querySelector('#current');
-let totalCounter = document.querySelector('#total');
+// let prevButton = document.querySelector('.offer__slider-prev');
+// let nextButton = document.querySelector('.offer__slider-next');
+// let currentCounter = document.querySelector('#current');
+// let totalCounter = document.querySelector('#total');
 
-function showSlide(n) {
-    let slides = document.querySelectorAll('.offer__slide');
-    if (n > slides.length) {
-        currentSlide = 1;
+// function showSlide(n) {
+//     let slides = document.querySelectorAll('.offer__slide');
+//     if (n > slides.length) {
+//         currentSlide = 1;
+//     }
+//     if (n < 1) {
+//         currentSlide = slides.length;
+//     }
+//     for (let i = 0; i < slides.length; i++) {
+//         slides[i].style.display = 'none';
+//     }
+//     slides[currentSlide - 1].style.display = 'block';
+// }
+
+// function updateCounter() {
+//     currentCounter.innerText = currentSlide < 10 ? `0${currentSlide}` : currentSlide;
+//     totalCounter.innerText = totalSlides < 10 ? `0${totalSlides}` : totalSlides;
+// }
+
+// function prevSlide() {
+//     showSlide(currentSlide -= 1);
+//     updateCounter();
+// }
+
+// function nextSlide() {
+//     showSlide(currentSlide += 1);
+//     updateCounter();
+// }
+
+// prevButton.addEventListener('click', prevSlide);
+// nextButton.addEventListener('click', nextSlide);
+
+
+// showSlide(currentSlide);
+// updateCounter();
+
+
+
+// classwork retake slider carousel 
+let slides = document.querySelectorAll('.offer__slide')
+let prev_btn = document.querySelector(".offer__slider-prev")
+let next_btn = document.querySelector(".offer__slider-next")
+let current = document.querySelector('#current')
+let total = document.querySelector('#total')
+
+let slide_index = 0
+
+slideShow(slide_index)
+
+function slideShow(n) {
+
+    if (n === slides.length) {
+        slide_index = 0
     }
-    if (n < 1) {
-        currentSlide = slides.length;
+
+    if (n < 0) {
+        slide_index = slides.length - 1
     }
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].style.display = 'none';
+
+    current.innerHTML = slide_index + 1 < 10 ? `0${slide_index + 1}` : slide_index + 1
+    total.innerHTML = slides.length < 10 ? `0${slides.length}` : slides.length
+
+    slides.forEach(el => el.classList.add('hide'))
+    slides[slide_index].classList.remove('hide')
+}
+
+next_btn.onclick = () => {
+    slide_index++
+    slideShow(slide_index)
+}
+
+prev_btn.onclick = () => {
+    slide_index--
+    slideShow(slide_index)
+}
+
+
+
+// Homework
+let form = document.querySelector('.order__form')
+let nameInput = form.querySelector('[name="name"]')
+let phoneInput = form.querySelector('[name="phone"]')
+let submitButton = form.querySelector('button')
+
+nameInput.onfocus = () => {
+    nameInput.style.border = "5px solid rgba(249, 254, 126, .25)"
+}
+
+nameInput.onblur = () => {
+    let val = +nameInput.value
+
+    if (isNaN(val)) {
+        nameInput.style.border = "2px solid blue"
+    } else {
+        nameInput.style.border = "2px solid red"
     }
-    slides[currentSlide - 1].style.display = 'block';
 }
 
-function updateCounter() {
-    currentCounter.innerText = currentSlide < 10 ? `0${currentSlide}` : currentSlide;
-    totalCounter.innerText = totalSlides < 10 ? `0${totalSlides}` : totalSlides;
+phoneInput.onfocus = () => {
+    phoneInput.style.border = "5px solid rgba(249, 254, 126, .25)"
 }
 
-function prevSlide() {
-    showSlide(currentSlide -= 1);
-    updateCounter();
+phoneInput.onblur = () => {
+    let val = +phoneInput.value
+
+    if (isNaN(val)) {
+        phoneInput.style.border = "2px solid blue"
+    } else {
+        phoneInput.style.border = "2px solid red"
+    }
 }
 
-function nextSlide() {
-    showSlide(currentSlide += 1);
-    updateCounter();
+submitButton.onclick = () => {
+    console.log(`Имя ${nameInput.value}, Телефон: ${phoneInput.value}`);
 }
-
-prevButton.addEventListener('click', prevSlide);
-nextButton.addEventListener('click', nextSlide);
-
-
-showSlide(currentSlide);
-updateCounter();
