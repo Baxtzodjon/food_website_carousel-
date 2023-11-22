@@ -173,6 +173,242 @@ phoneInput.onblur = () => {
     }
 }
 
-submitButton.onclick = () => {
-    console.log(`Имя ${nameInput.value}, Телефон: ${phoneInput.value}`);
+form.onsubmit = (el) => {
+    el.preventDefault()
+    console.log({ name: nameInput.value, number: phoneInput.value });
+}
+
+// submitButton.onclick = () => {
+//     console.log(`Имя ${nameInput.value}, Телефон: ${phoneInput.value}`);
+// }
+
+
+// classwork 
+// BMI calculator
+let user_data = {
+    gender: "woman"
+}
+let genderBtns = document.querySelectorAll('#gender .calculating__choose-item')
+let ratioInputs = document.querySelectorAll('.calculating__choose_medium input')
+let resultBtns = document.querySelectorAll('.calculating__choose_big .calculating__choose-item')
+let total_view = document.querySelector('#total_view')
+
+genderBtns.forEach(btn => {
+    btn.onclick = () => {
+        let gen = btn.dataset.g // dataset все data атрибути который у кнопки есть
+        genderBtns.forEach(el => el.classList.remove('calculating__choose-item_active'))
+        btn.classList.add('calculating__choose-item_active')
+
+        user_data.gender = gen
+    }
+})
+
+ratioInputs.forEach(inp => {
+    inp.onkeyup = () => {
+        user_data[inp.id] = inp.value
+        // console.log(inp.id, inp.value); // id - забрать id
+    }
+})
+
+resultBtns.forEach(btn => {
+    btn.onclick = () => {
+        resultBtns.forEach(el => el.classList.remove('calculating__choose-item_active'))
+        btn.classList.add('calculating__choose-item_active')
+        let coef = btn.dataset.coeficient
+
+        if (user_data.gender === 'woman') {
+            let result = 655.1 + (9.563 * user_data.weight) + (1.85 * user_data.height) - (4.676 * user_data.age)
+
+            total_view.innerHTML = Math.floor(result * coef)
+        } else {
+            let result = 66.5 + (13.75 * user_data.weight) + (5.003 * user_data.height) - (6.775 * user_data.age)
+
+            total_view.innerHTML = Math.floor(result * coef)
+        }
+
+    }
+})
+
+
+
+// timer
+// setInterval(() => {
+//     console.log('hello'); // это таймер
+// }, 1000) // 1000 это один секунд
+
+// setTimeout(() => {
+//     alert('Hi chuvak'); // это тоже таймер только - задержка
+// }, 1000)
+
+
+// seconds_view.innerHTML--
+
+// if(seconds_view.innerHTML == 0) {
+//     seconds_view.innerHTML = 59
+//     minutes_view.innerHTML--
+// }
+
+
+// Homework
+/* let days_view = document.querySelector('#days')
+let hours_view = document.querySelector('#hours')
+let minutes_view = document.querySelector('#minutes')
+let seconds_view = document.querySelector('#seconds')
+
+let days = parseInt(days_view.innerHTML)
+let hours = parseInt(hours_view.innerHTML)
+let minutes = parseInt(minutes_view.innerHTML)
+let seconds = parseInt(seconds_view.innerHTML)
+
+setInterval(() => {
+    seconds--
+
+    if (seconds < 0) {
+        seconds = 59
+        minutes--
+    }
+
+    if (minutes < 0) {
+        minutes = 59
+        hours--
+    }
+
+    if (hours < 0) {
+        hours = 23
+        days = 0
+        hours = 0
+        minutes = 0
+        seconds = 0
+    }
+
+    days_view.innerHTML = days
+    hours_view.innerHTML = hours
+    minutes_view.innerHTML = minutes
+    seconds_view.innerHTML = seconds
+}, 1000) */
+
+
+// let days_view = document.querySelector('#days')
+// let hours_view = document.querySelector('#hours')
+// let minutes_view = document.querySelector('#minutes')
+// let seconds_view = document.querySelector('#seconds')
+
+// setInterval(() => {
+//     seconds_view.innerHTML--
+
+//     if (seconds_view.innerHTML < 0) {
+//         seconds_view.innerHTML = 59
+//         minutes_view.innerHTML--
+//     }
+
+//     if (minutes_view.innerHTML < 0) {
+//         minutes_view.innerHTML = 59
+//         hours_view.innerHTML--
+//     }
+
+//     if (hours_view.innerHTML < 0) {
+//         hours_view.innerHTML = 23
+//         days_view.innerHTML = 0
+//         hours_view.innerHTML = 0
+//         minutes_view.innerHTML = 0
+//         seconds_view.innerHTML = 0
+//     }
+// }, 1000)
+
+
+// Homework real
+let days_view = document.querySelector('#days');
+let hours_view = document.querySelector('#hours');
+let minutes_view = document.querySelector('#minutes');
+let seconds_view = document.querySelector('#seconds');
+
+let days = parseInt(days_view.innerHTML);
+let hours = parseInt(hours_view.innerHTML);
+let minutes = parseInt(minutes_view.innerHTML);
+let seconds = parseInt(seconds_view.innerHTML);
+
+setInterval(() => {
+    seconds--;
+
+    if (seconds < 0) {
+        seconds = 59;
+        minutes--;
+
+        if (minutes < 0) {
+            minutes = 59;
+            hours--;
+
+            if (hours < 0) {
+                hours = 23;
+                days--;
+
+                if (days < 0) {
+                    days = 0;
+                    hours = 0;
+                    minutes = 0;
+                    seconds = 0;
+
+                    
+                    startConfetti();
+                    confetti_happy();
+                }
+            }
+        }
+    }
+
+    days_view.innerHTML = days;
+    hours_view.innerHTML = hours;
+    minutes_view.innerHTML = minutes;
+    seconds_view.innerHTML = seconds;
+}, 1000);
+
+
+function startConfetti() {
+    const duration = 10 * 100; 
+
+    const end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 3, 
+            startVelocity: 30, 
+            spread: 360,
+            ticks: 200, 
+            origin: { x: Math.random(), y: Math.random() * 0.2 - 0.1 }, 
+            colors: ['#ff0000', '#00ff00', '#0000ff'] 
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    })();
+}
+
+
+function confetti_happy() {
+
+    var end = Date.now() + (15 * 100);
+   
+    var colors = ['#bb0000', '#ffffff'];
+
+    (function frame() {
+        confetti({
+            particleCount: 2,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: colors,
+        });
+        confetti({
+            particleCount: 2,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: colors
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    }())
 }
